@@ -11,7 +11,7 @@ export class KeysService {
       const response = await gplayMemoized.search({
         term: id,
         num: 10,
-        throttle: 20,
+        throttle: 5,
       });
       console.log(
         '🚀 ~ file: keys.service.ts ~ line 16 ~ KeysService ~ getById ~ response',

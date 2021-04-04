@@ -1,24 +1,39 @@
-import { styled } from "@material-ui/core";
 import { KeyRow } from "./KeyRow";
+import { DataGrid, GridColDef, GridCellParams } from "@material-ui/data-grid";
 
 type KeyTableProps = {
   keys: string[];
 };
 
 function KeyTable(props: KeyTableProps) {
+  const columns: GridColDef[] = [
+    { field: "number", headerName: "№", width: 70 },
+    { field: "id", headerName: "KeyWord", width: 280 },
+    {
+      field: "keyWord",
+      headerName: "Positions",
+      width: 665,
+      renderCell: (params: GridCellParams) => (
+        <KeyRow keyWord={params.value as string} />
+      ),
+    },
+  ];
+
+  const rows = props.keys.map((keyWord, i) => ({
+    number: i,
+    id: keyWord,
+    keyWord,
+  }));
+
   return (
-    <Root>
-      {props.keys.map(
-        (key, i) =>
-          !!key.length && <KeyRow number={i + 1} key={key} keyWord={key} />
-      )}
-    </Root>
+    <DataGrid
+      autoHeight
+      rows={rows}
+      columns={columns}
+      pageSize={50}
+      checkboxSelection
+    />
   );
 }
-
-const Root = styled("div")({
-  width: "100%",
-  marginTop: "32px",
-});
 
 export { KeyTable };

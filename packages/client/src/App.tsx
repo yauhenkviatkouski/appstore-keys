@@ -13,6 +13,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <AppWrapper>
         <KeysInputArea onSubmit={setKeysString} />
+        <br />
         {keys && <KeyTable keys={Array.from(keys)} />}
       </AppWrapper>
     </QueryClientProvider>
@@ -21,6 +22,8 @@ function App() {
 
 const AppWrapper = styled("main")({
   padding: "16px",
+  maxWidth: "1080px",
+  margin: "0 auto",
 });
 
 export default App;
