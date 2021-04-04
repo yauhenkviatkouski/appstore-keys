@@ -1,9 +1,10 @@
 import { styled } from "@material-ui/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 
 type KeyRowProps = {
   keyWord: string;
+  number: number;
 };
 
 type GameInfoType = {
@@ -12,10 +13,11 @@ type GameInfoType = {
   title?: string;
 };
 
-function KeyRow(props: KeyRowProps) {
+function KeyRow({ keyWord, number }: KeyRowProps) {
   const [games, setGames] = useState<GameInfoType[]>();
-  const keyRequest = useQuery(`api/keys/${props.keyWord}`, () => {
-    fetch(`api/keys/${props.keyWord}`)
+
+  useEffect(() => {
+    fetch(`api/keys/${keyWord}`)
       .then((res) => res.json())
       .then((res) => {
         if (res.length) {
@@ -26,17 +28,17 @@ function KeyRow(props: KeyRowProps) {
           }));
           setGames(games);
         }
-        console.log("🚀 ~ file: KeyRow.tsx ~ line 18 ~ fetch ~ res", res);
       });
-  });
+  }, [keyWord]);
 
   return (
     <Root>
-      <KeyWordWrapper>{props.keyWord}</KeyWordWrapper>
+      <span style={{ marginRight: "12px", fontSize: "8px" }}>{number}</span>
+      <KeyWordWrapper>{keyWord}</KeyWordWrapper>
       {games?.map((game) => (
         <a key={game.url} target="_blank" href={game.url}>
           <ImageWrapper
-            src={game.icon}
+            src={`${game.icon}=w40-h40`}
             alt={game.title}
             title={game.title}
           ></ImageWrapper>

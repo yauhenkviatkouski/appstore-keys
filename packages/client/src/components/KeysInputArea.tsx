@@ -25,11 +25,7 @@ function KeysInputArea(props: KeysInputAreaProps) {
         multiline
       />
       <ControlWrapper>
-        <StyledButton
-          onClick={() => props.onSubmit(keys)}
-          variant="contained"
-          type="submit"
-        >
+        <StyledButton onClick={() => props.onSubmit(keys)} variant="contained">
           Search
         </StyledButton>
         {/* <StyledButton

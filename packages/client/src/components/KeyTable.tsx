@@ -9,7 +9,8 @@ function KeyTable(props: KeyTableProps) {
   return (
     <Root>
       {props.keys.map(
-        (key) => !!key.length && <KeyRow key={key} keyWord={key} />
+        (key, i) =>
+          !!key.length && <KeyRow number={i + 1} key={key} keyWord={key} />
       )}
     </Root>
   );

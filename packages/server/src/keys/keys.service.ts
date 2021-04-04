@@ -1,13 +1,26 @@
 import { Injectable } from '@nestjs/common';
 const gplay = require('google-play-scraper');
+const gplayMemoized = require('google-play-scraper').memoized({
+  maxAge: 1000 * 60 * 60,
+});
 
 @Injectable()
 export class KeysService {
   async getById(id: string) {
-    const response = await gplay.search({
-      term: id,
-      num: 10,
-    });
-    return response;
+    try {
+      const response = await gplayMemoized.search({
+        term: id,
+        num: 10,
+        throttle: 20,
+      });
+      console.log(
+        '🚀 ~ file: keys.service.ts ~ line 16 ~ KeysService ~ getById ~ response',
+        id,
+      );
+      return response;
+    } catch (e) {
+      console.log(e);
+      return e;
+    }
   }
 }
