@@ -8,12 +8,9 @@ function App() {
   useEffect(() => {
     fetch("/api")
       .then((res) => {
-        console.log("🚀 ~ file: App.tsx ~ line 11 ~ .then ~ res", res);
-
         return res.json();
       })
       .then((data) => {
-        console.log("🚀 ~ file: App.tsx ~ line 12 ~ .then ~ data", data);
         setFoo(data.message);
       })
       .catch((err) => setFoo(err.message));
