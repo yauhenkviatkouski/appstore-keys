@@ -1,39 +1,26 @@
-import React, { useEffect, useState } from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import { styled } from "@material-ui/core";
+import { useState } from "react";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { KeysInputArea } from "./components/KeysInputArea";
+import { KeyTable } from "./components/KeyTable";
+const queryClient = new QueryClient();
 
 function App() {
-  const [foo, setFoo] = useState("N/A");
+  const [keysString, setKeysString] = useState<string | null>(null);
+  const keys = new Set(keysString?.split(","));
 
-  useEffect(() => {
-    fetch("/api")
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        setFoo(data.message);
-      })
-      .catch((err) => setFoo(err.message));
-  }, []);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload. \n message from
-          server: {foo}
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <AppWrapper>
+        <KeysInputArea onSubmit={setKeysString} />
+        {keys && <KeyTable keys={Array.from(keys)} />}
+      </AppWrapper>
+    </QueryClientProvider>
   );
 }
+
+const AppWrapper = styled("main")({
+  padding: "16px",
+});
 
 export default App;
