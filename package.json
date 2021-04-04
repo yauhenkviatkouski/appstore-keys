@@ -1,0 +1,29 @@
+{
+  "name": "lerna-react-node-ts",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "lerna run start --stream",
+    "build": "lerna run build --stream",
+    "i:server": "cd $(npm root)/../packages/server; npm i",
+    "i:client": "cd $(npm root)/../packages/client; npm i",
+    "i:all": "npm i && npm run i:server && npm run i:client",
+    "heroku-postbuild": "npm run i:all",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yauhenkviatkouski/lerna-react-node-ts.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yauhenkviatkouski/lerna-react-node-ts/issues"
+  },
+  "homepage": "https://github.com/yauhenkviatkouski/lerna-react-node-ts#readme",
+  "devDependencies": {
+    "lerna": "^4.0.0"
+  }
+}
