@@ -46,6 +46,7 @@
     ]
   },
   "devDependencies": {
-    "@types/material-ui": "^0.21.8"
+    "@types/material-ui": "^0.21.8",
+    "@types/react-query": "^1.1.2"
   }
 }

@@ -7,14 +7,22 @@ const queryClient = new QueryClient();
 
 function App() {
   const [keysString, setKeysString] = useState<string | null>(null);
+  const [country, setCountry] = useState<string>("");
   const keys = new Set(keysString?.split(","));
+
+  function onSubmitInputArea(keys: string, country: string) {
+    setKeysString(keys);
+    setCountry(country);
+  }
 
   return (
     <QueryClientProvider client={queryClient}>
       <AppWrapper>
-        <KeysInputArea onSubmit={setKeysString} />
+        <KeysInputArea
+          onSubmit={(keys, country) => onSubmitInputArea(keys, country)}
+        />
         <br />
-        {keys && <KeyTable keys={Array.from(keys)} />}
+        {keys && <KeyTable keys={Array.from(keys)} country={country} />}
       </AppWrapper>
     </QueryClientProvider>
   );

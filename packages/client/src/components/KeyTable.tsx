@@ -3,6 +3,7 @@ import { DataGrid, GridColDef, GridCellParams } from "@material-ui/data-grid";
 
 type KeyTableProps = {
   keys: string[];
+  country: string;
 };
 
 function KeyTable(props: KeyTableProps) {
@@ -14,7 +15,7 @@ function KeyTable(props: KeyTableProps) {
       headerName: "Positions",
       width: 665,
       renderCell: (params: GridCellParams) => (
-        <KeyRow keyWord={params.value as string} />
+        <KeyRow keyWord={params.value as string} country={props.country} />
       ),
     },
   ];
@@ -30,7 +31,7 @@ function KeyTable(props: KeyTableProps) {
       autoHeight
       rows={rows}
       columns={columns}
-      pageSize={50}
+      pageSize={100}
       checkboxSelection
     />
   );

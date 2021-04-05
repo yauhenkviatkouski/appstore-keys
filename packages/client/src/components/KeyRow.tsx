@@ -1,9 +1,10 @@
 import { styled } from "@material-ui/core";
 import { useEffect, useState } from "react";
+// import { useKeyWordInfo } from "../hooks/useKeyWordInfo";
 
 type KeyRowProps = {
   keyWord: string;
-  number?: number;
+  country: string;
 };
 
 type GameInfoType = {
@@ -12,11 +13,11 @@ type GameInfoType = {
   title?: string;
 };
 
-function KeyRow({ keyWord }: KeyRowProps) {
+function KeyRow({ keyWord, country }: KeyRowProps) {
   const [games, setGames] = useState<GameInfoType[]>();
 
   useEffect(() => {
-    fetch(`api/keys/${keyWord}`, { cache: "force-cache" })
+    fetch(`api/keys/${keyWord}?country=${country}`, { cache: "force-cache" })
       .then((res) => res.json())
       .then((res) => {
         if (res.length) {
@@ -28,7 +29,7 @@ function KeyRow({ keyWord }: KeyRowProps) {
           setGames(games);
         }
       });
-  }, [keyWord]);
+  }, [keyWord, country]);
 
   return (
     <Root>

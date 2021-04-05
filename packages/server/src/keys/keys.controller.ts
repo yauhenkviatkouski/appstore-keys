@@ -1,12 +1,12 @@
 import { KeysService } from './keys.service';
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 
 @Controller('keys')
 export class KeysController {
   constructor(private readonly keysServise: KeysService) {}
 
   @Get(':id')
-  getOne(@Param('id') id) {
-    return this.keysServise.getById(id);
+  getOne(@Param('id') id: string, @Query('country') country) {
+    return this.keysServise.getOne(id, country);
   }
 }
