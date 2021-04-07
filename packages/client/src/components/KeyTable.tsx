@@ -1,5 +1,5 @@
 import { KeyRow } from "./KeyRow";
-import { DataGrid, GridColDef, GridCellParams } from "@material-ui/data-grid";
+import { Table } from "antd";
 
 type KeyTableProps = {
   keys: string[];
@@ -7,34 +7,27 @@ type KeyTableProps = {
 };
 
 function KeyTable(props: KeyTableProps) {
-  const columns: GridColDef[] = [
-    { field: "number", headerName: "№", width: 70 },
-    { field: "id", headerName: "KeyWord", width: 280 },
+  const columns = [
+    { dataIndex: "number", title: "№", width: 70 },
+    { dataIndex: "id", title: "KeyWord", width: 280 },
     {
-      field: "keyWord",
-      headerName: "Positions",
+      dataIndex: "keyWord",
+      title: "Positions",
       width: 665,
-      renderCell: (params: GridCellParams) => (
-        <KeyRow keyWord={params.value as string} country={props.country} />
+      render: (keyWord: string) => (
+        <KeyRow keyWord={keyWord as string} country={props.country} />
       ),
     },
   ];
 
   const rows = props.keys.map((keyWord, i) => ({
-    number: i,
+    key: i,
+    number: i + 1,
     id: keyWord.replace(/[\s{2,}]+/g, " "),
     keyWord,
   }));
 
-  return (
-    <DataGrid
-      autoHeight
-      rows={rows}
-      columns={columns}
-      pageSize={100}
-      checkboxSelection
-    />
-  );
+  return <Table pagination={false} dataSource={rows} columns={columns} />;
 }
 
 export { KeyTable };

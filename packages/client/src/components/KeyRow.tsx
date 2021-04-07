@@ -1,39 +1,21 @@
 import { styled } from "@material-ui/core";
-import { useEffect, useState } from "react";
-// import { useKeyWordInfo } from "../hooks/useKeyWordInfo";
+import { GameInfoType, useKeyWordInfo } from "../hooks/useKeyWordInfo";
 
 type KeyRowProps = {
   keyWord: string;
   country: string;
 };
 
-type GameInfoType = {
-  icon?: string;
-  url?: string;
-  title?: string;
-};
-
 function KeyRow({ keyWord, country }: KeyRowProps) {
-  const [games, setGames] = useState<GameInfoType[]>();
-
-  useEffect(() => {
-    fetch(`api/keys/${keyWord}?country=${country}`, { cache: "force-cache" })
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.length) {
-          const games = res.map((game: any) => ({
-            icon: game.icon,
-            url: game.url,
-            title: game.title,
-          }));
-          setGames(games);
-        }
-      });
-  }, [keyWord, country]);
-
+  const { isLoading, isError, games, error, isFetching } = useKeyWordInfo(
+    keyWord,
+    country
+  );
+  // console.log("RENDER KEY, IS ERROR ", error);
   return (
     <Root>
-      {games?.map((game) => (
+      {isLoading && "Loading..."}
+      {games?.map((game: GameInfoType) => (
         <LinkWrapper key={game.url} target="_blank" href={game.url}>
           <ImageWrapper
             src={`${game.icon}=w50-h50`}
