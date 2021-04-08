@@ -9,7 +9,7 @@ import COUNTRIES from "./countries.json";
 const queryClient = new QueryClient();
 
 function App() {
-  const [keys, setKeys] = useState("");
+  const [keys, setKeys] = useState<string[]>([]);
   const [country, setCountry] = useState<string>("RU");
 
   function onSubmitInputArea() {
@@ -17,13 +17,18 @@ function App() {
     setCountry(country);
   }
 
+  // TODO deleting all dublicates
+  function deleteKeyWord(keyWord: string) {
+    setKeys((keys) => keys.filter((key) => key !== keyWord));
+  }
+
   return (
     <QueryClientProvider client={queryClient}>
       <AppWrapper>
         <ControlArea>
           <Input.TextArea
-            value={keys}
-            onChange={(e) => setKeys(e.target.value)}
+            value={keys.join()}
+            onChange={(e) => setKeys(e.target.value.split(","))}
             placeholder="Input comma-separated keywords"
             rows={3}
             onPressEnter={onSubmitInputArea}
@@ -38,13 +43,13 @@ function App() {
           </Button>
 
           <Button
-            onClick={() => navigator.clipboard.writeText(keys)}
+            onClick={() => navigator.clipboard.writeText(keys.join())}
             disabled={!keys}
           >
             Copy
           </Button>
 
-          <Button onClick={() => setKeys("")} disabled={!keys}>
+          <Button onClick={() => setKeys([])} disabled={!keys}>
             Clear
           </Button>
 
@@ -73,7 +78,13 @@ function App() {
             ))}
           </Select>
         </ControlArea>
-        {keys && <KeyTable keys={keys?.split(",")} country={country} />}
+        {keys && (
+          <KeyTable
+            keys={keys}
+            country={country}
+            onDeleteItem={deleteKeyWord}
+          />
+        )}
       </AppWrapper>
     </QueryClientProvider>
   );

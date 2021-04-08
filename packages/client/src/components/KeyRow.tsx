@@ -12,11 +12,10 @@ function KeyRow({ keyWord, country }: KeyRowProps) {
     keyWord,
     country
   );
-  console.log(
-    "🚀 ~ file: KeyRow.tsx ~ line 12 ~ KeyRow ~ attemptNumber, delaySeconds",
-    attemptNumber,
-    delaySeconds
-  );
+
+  if (!keyWord) {
+    return null;
+  }
   return (
     <Root>
       {isLoading && (

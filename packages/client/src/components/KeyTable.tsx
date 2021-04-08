@@ -1,9 +1,11 @@
 import { KeyRow } from "./KeyRow";
-import { Table } from "antd";
+import { Button, Table } from "antd";
+import { DeleteOutlined } from "@ant-design/icons";
 
 type KeyTableProps = {
   keys: string[];
   country: string;
+  onDeleteItem: (key: string) => void;
 };
 
 function KeyTable(props: KeyTableProps) {
@@ -16,6 +18,18 @@ function KeyTable(props: KeyTableProps) {
       width: 665,
       render: (keyWord: string) => (
         <KeyRow keyWord={keyWord as string} country={props.country} />
+      ),
+    },
+    {
+      dataIndex: "delete",
+      title: "",
+      width: 70,
+      render: (_: any, { keyWord }) => (
+        <Button
+          onClick={() => props.onDeleteItem(keyWord)}
+          style={{ margin: 0 }}
+          icon={<DeleteOutlined />}
+        ></Button>
       ),
     },
   ];
