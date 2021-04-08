@@ -1,4 +1,4 @@
-import React, { ComponentPropsWithRef, useRef, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 
 import { Input, Button, Select } from "antd";
@@ -11,45 +11,33 @@ type KeysInputAreaProps = {
 };
 
 function KeysInputArea(props: KeysInputAreaProps) {
-  const AreaRef = useRef<ComponentPropsWithRef<any>>(null);
   const [keys, setKeys] = useState("");
   const [country, setCountry] = useState("US");
-  // function onCopy() {
-  //   AreaRef.current?.select();
-  //   document.execCommand("copy");
-  // }
+  function onCopy() {
+    navigator.clipboard.writeText(keys);
+  }
   return (
     <Root>
       <Input.TextArea
         value={keys}
         onChange={(e) => setKeys(e.target.value)}
-        ref={AreaRef}
         placeholder="Input comma-separated keywords"
-        rows={4}
+        rows={3}
         onPressEnter={() => props.onSubmit(keys, country)}
       />
       <div>
         <Button
+          disabled={!keys}
           icon={<SearchOutlined />}
           onClick={() => props.onSubmit(keys, country)}
-          // variant="contained"
         >
           Search
         </Button>
-        {/* <Button
-          onClick={onCopy}
-          disabled={!AreaRef}
-          variant="contained"
-          type="submit"
-        >
+        <Button onClick={onCopy} disabled={!keys}>
           Copy
-        </Button> */}
+        </Button>
 
-        <Button
-          onClick={() => setKeys("")}
-          disabled={!Boolean(keys)}
-          // variant="contained"
-        >
+        <Button onClick={() => setKeys("")} disabled={!keys}>
           Clear
         </Button>
         <Select
@@ -58,15 +46,16 @@ function KeysInputArea(props: KeysInputAreaProps) {
           value={country}
           placeholder="Country"
           optionFilterProp="children"
-          filterOption={(input, option) =>
-            option?.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-          }
-          filterSort={(optionA, optionB) =>
-            optionA.children
-              .toLowerCase()
-              .localeCompare(optionB.children.toLowerCase())
-          }
-          onChange={(event: any) => setCountry(event.target.value as string)}
+          filterOption={(input, option) => {
+            console.log(
+              "🚀 ~ file: KeysInputArea.tsx ~ line 67 ~ KeysInputArea ~ input, option",
+              option
+            );
+            return (
+              option?.value.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            );
+          }}
+          onChange={(value: string) => setCountry(value)}
         >
           {Object.keys(COUNTRIES).map((code) => (
             <Select.Option key={code} value={code}>
@@ -75,29 +64,24 @@ function KeysInputArea(props: KeysInputAreaProps) {
             </Select.Option>
           ))}
         </Select>
-        {/* <FormControl variant="filled">
-          <InputLabel id="coutry-selector">Country</InputLabel>
-          <Select
-            labelId="coutry-selector"
-            id="coutry-selector"
-            value={country}
-            onChange={(event: React.ChangeEvent<{ value: unknown }>) =>
-              setCountry(event.target.value as string)
-            }
-          >
-            {Object.keys(COUNTRIES).map((code) => (
-              <MenuItem key={code} value={code}>
-                <img src={`https://www.countryflags.io/${code}/shiny/24.png`} />
-                {" " + String((COUNTRIES as any)[code])}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl> */}
       </div>
     </Root>
   );
 }
 
-const Root = styled.div``;
+const Root = styled.div`
+  position: sticky;
+  top: 0;
+  padding-top: 16px;
+  z-index: 2;
+  background: white;
+  button {
+    margin: 8px 8px 0 0;
+  }
+
+  .ant-select-selection-search-input {
+    padding-left: 26px !important;
+  }
+`;
 
 export { KeysInputArea };

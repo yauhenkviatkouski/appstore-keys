@@ -29,7 +29,6 @@ function App() {
 }
 
 const AppWrapper = styled.main`
-  padding: 16px;
   max-width: 1080px;
   margin: 0 auto;
 `;
