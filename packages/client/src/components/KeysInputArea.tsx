@@ -1,13 +1,9 @@
 import React, { ComponentPropsWithRef, useRef, useState } from "react";
-import {
-  Button,
-  FormControl,
-  InputLabel,
-  Select,
-  styled,
-  TextField,
-  MenuItem,
-} from "@material-ui/core";
+import styled from "styled-components";
+
+import { Input, Button, Select } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
+
 import COUNTRIES from "../countries.json";
 
 type KeysInputAreaProps = {
@@ -24,40 +20,62 @@ function KeysInputArea(props: KeysInputAreaProps) {
   // }
   return (
     <Root>
-      <StyledTextField
+      <Input.TextArea
         value={keys}
         onChange={(e) => setKeys(e.target.value)}
-        inputRef={AreaRef}
+        ref={AreaRef}
         placeholder="Input comma-separated keywords"
-        label="Keywords"
-        variant="outlined"
-        rows="5"
-        multiline
+        rows={4}
+        onPressEnter={() => props.onSubmit(keys, country)}
       />
-      <ControlWrapper>
-        <StyledButton
+      <div>
+        <Button
+          icon={<SearchOutlined />}
           onClick={() => props.onSubmit(keys, country)}
-          variant="contained"
+          // variant="contained"
         >
           Search
-        </StyledButton>
-        {/* <StyledButton
+        </Button>
+        {/* <Button
           onClick={onCopy}
           disabled={!AreaRef}
           variant="contained"
           type="submit"
         >
           Copy
-        </StyledButton> */}
+        </Button> */}
 
-        <StyledButton
+        <Button
           onClick={() => setKeys("")}
           disabled={!Boolean(keys)}
-          variant="contained"
+          // variant="contained"
         >
           Clear
-        </StyledButton>
-        <FormControl variant="filled">
+        </Button>
+        <Select
+          showSearch
+          style={{ width: 200 }}
+          value={country}
+          placeholder="Country"
+          optionFilterProp="children"
+          filterOption={(input, option) =>
+            option?.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+          }
+          filterSort={(optionA, optionB) =>
+            optionA.children
+              .toLowerCase()
+              .localeCompare(optionB.children.toLowerCase())
+          }
+          onChange={(event: any) => setCountry(event.target.value as string)}
+        >
+          {Object.keys(COUNTRIES).map((code) => (
+            <Select.Option key={code} value={code}>
+              <img src={`https://www.countryflags.io/${code}/shiny/24.png`} />
+              {" " + String((COUNTRIES as any)[code])}
+            </Select.Option>
+          ))}
+        </Select>
+        {/* <FormControl variant="filled">
           <InputLabel id="coutry-selector">Country</InputLabel>
           <Select
             labelId="coutry-selector"
@@ -74,35 +92,12 @@ function KeysInputArea(props: KeysInputAreaProps) {
               </MenuItem>
             ))}
           </Select>
-        </FormControl>
-      </ControlWrapper>
+        </FormControl> */}
+      </div>
     </Root>
   );
 }
 
-const Root = styled("div")({
-  display: "flex",
-  "& .MuiFilledInput-input": {
-    display: "flex",
-    alignItems: "center",
-  },
-
-  "& img": {
-    marginRight: "8px",
-  },
-});
-
-const StyledTextField = styled(TextField)({
-  width: "50%",
-  marginRight: "16px",
-});
-
-const ControlWrapper = styled("div")({
-  display: "grid",
-  gridGap: "16px",
-  gridTemplateColumns: "250px 250px",
-});
-
-const StyledButton = styled(Button)({});
+const Root = styled.div``;
 
 export { KeysInputArea };

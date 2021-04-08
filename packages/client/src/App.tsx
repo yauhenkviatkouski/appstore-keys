@@ -1,6 +1,6 @@
-import { styled } from "@material-ui/core";
 import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
+import styled from "styled-components";
 import { KeysInputArea } from "./components/KeysInputArea";
 import { KeyTable } from "./components/KeyTable";
 const queryClient = new QueryClient();
@@ -28,10 +28,10 @@ function App() {
   );
 }
 
-const AppWrapper = styled("main")({
-  padding: "16px",
-  maxWidth: "1080px",
-  margin: "0 auto",
-});
+const AppWrapper = styled.main`
+  padding: 16px;
+  max-width: 1080px;
+  margin: 0 auto;
+`;
 
 export default App;

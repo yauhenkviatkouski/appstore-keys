@@ -1,4 +1,4 @@
-import { styled } from "@material-ui/core";
+import styled from "styled-components";
 import { GameInfoType, useKeyWordInfo } from "../hooks/useKeyWordInfo";
 
 type KeyRowProps = {
@@ -27,21 +27,21 @@ function KeyRow({ keyWord, country }: KeyRowProps) {
   );
 }
 
-const Root = styled("div")({
-  display: "flex",
-  alignItems: "center",
-  width: "100%",
-  height: "52px",
-});
+const Root = styled("div")`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 52px;
+`;
 
-const LinkWrapper = styled("a")({
-  height: "40px",
-  margin: "0 12px",
-});
+const LinkWrapper = styled("a")`
+  height: 40px;
+  margin: 0 12px;
+`;
 
-const ImageWrapper = styled("img")({
-  width: "40px",
-  height: "40px",
-});
+const ImageWrapper = styled("img")`
+  width: 40px;
+  height: 40px;
+`;
 
 export { KeyRow };
