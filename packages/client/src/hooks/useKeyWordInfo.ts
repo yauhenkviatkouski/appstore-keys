@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useQuery } from "react-query";
 
 export type GameInfoType = {
@@ -13,6 +14,8 @@ class FetchError extends Error {
 }
 
 function useKeyWordInfo(keyWord: string, country: string) {
+  const [attemptNumber, setAttemptNumber] = useState(0);
+  const [delaySeconds, setDelaySeconds] = useState(0);
   const { isLoading, isError, data, error, isFetching } = useQuery(
     `api/keys/${keyWord}?country=${country}`,
     async () => {
@@ -24,18 +27,12 @@ function useKeyWordInfo(keyWord: string, country: string) {
       refetchOnWindowFocus: false,
       retry: 50,
       retryDelay: (attempt: number, error: any) => {
-        console.log("🚀 ~ file: useKeyWordInfo.ts ~ error", error);
-        return Math.min(attempt > 1 ? 2 ** attempt * 1000 : 1000, 17 * 1000);
+        setAttemptNumber(attempt);
+        setDelaySeconds(Math.min(attempt > 1 ? 2 ** attempt : 1, 200 * 1));
+        return Math.min(attempt > 1 ? 2 ** attempt * 1000 : 1000, 200 * 1000);
       },
     }
   );
-
-  if (error) {
-    console.dir(
-      "🚀 ~ file: useKeyWordInfo.ts ~ line 34 ~ useKeyWordInfo ~ error",
-      error
-    );
-  }
 
   let games;
   if (data) {
@@ -46,7 +43,15 @@ function useKeyWordInfo(keyWord: string, country: string) {
     }));
   }
 
-  return { isLoading, isError, games, error, isFetching };
+  return {
+    isLoading,
+    isError,
+    games,
+    error,
+    isFetching,
+    attemptNumber,
+    delaySeconds,
+  };
 }
 
 export { useKeyWordInfo };

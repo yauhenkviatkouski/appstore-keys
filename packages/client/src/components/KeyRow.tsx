@@ -1,3 +1,4 @@
+import { Spin } from "antd";
 import styled from "styled-components";
 import { GameInfoType, useKeyWordInfo } from "../hooks/useKeyWordInfo";
 
@@ -7,14 +8,25 @@ type KeyRowProps = {
 };
 
 function KeyRow({ keyWord, country }: KeyRowProps) {
-  const { isLoading, isError, games, error, isFetching } = useKeyWordInfo(
+  const { isLoading, games, attemptNumber, delaySeconds } = useKeyWordInfo(
     keyWord,
     country
   );
-  // console.log("RENDER KEY, IS ERROR ", error);
+  console.log(
+    "🚀 ~ file: KeyRow.tsx ~ line 12 ~ KeyRow ~ attemptNumber, delaySeconds",
+    attemptNumber,
+    delaySeconds
+  );
   return (
     <Root>
-      {isLoading && "Loading..."}
+      {isLoading && (
+        <>
+          <Spin style={{ marginRight: "26px" }} size="small" />
+          {attemptNumber > 0 &&
+            delaySeconds > 0 &&
+            ` banned by store ${attemptNumber} times, next attempt in ${delaySeconds} seconds`}
+        </>
+      )}
       {games?.map((game: GameInfoType) => (
         <LinkWrapper key={game.url} target="_blank" href={game.url}>
           <ImageWrapper
