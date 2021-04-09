@@ -37,7 +37,7 @@ function KeyTable(props: KeyTableProps) {
   const rows = props.keys.map((keyWord, i) => ({
     key: i,
     number: i + 1,
-    id: keyWord.replace(/[\s{2,}]+/g, " "),
+    id: keyWord,
     keyWord,
   }));
 
