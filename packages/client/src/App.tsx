@@ -72,7 +72,10 @@ function App() {
           >
             {Object.keys(COUNTRIES).map((code) => (
               <Select.Option key={code} value={code}>
-                <img src={`https://www.countryflags.io/${code}/shiny/24.png`} />
+                <img
+                  src={`https://flagcdn.com/16x12/${code.toLowerCase()}.png`}
+                  alt=""
+                />
                 {" " + String((COUNTRIES as any)[code])}
               </Select.Option>
             ))}
