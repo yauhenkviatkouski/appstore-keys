@@ -8,7 +8,9 @@ import gplay = require('google-play-scraper');
 export class KeysService {
   async getOne(id: string, country: string) {
     console.log('🚀 ~ file: keys.service.ts ~ request', country, id);
-    // throw new HttpException('message', 429);
+    // if (id === 'exa') {
+    //   throw new HttpException('message', 429);
+    // }
     try {
       const response = await gplay.search({
         term: id,

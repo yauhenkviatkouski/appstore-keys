@@ -28,14 +28,14 @@ function useKeyWordInfo(keyWord: string, country: string) {
       retry: 50,
       retryDelay: (attempt: number, error: any) => {
         setAttemptNumber(attempt);
-        setDelaySeconds(Math.min(attempt > 1 ? 2 ** attempt : 1, 200 * 1));
-        return Math.min(attempt > 1 ? 2 ** attempt * 1000 : 1000, 200 * 1000);
+        setDelaySeconds(Math.min(attempt > 1 ? 2 ** attempt : 1, 300 * 1));
+        return Math.min(attempt > 1 ? 2 ** attempt * 1000 : 1000, 300 * 1000);
       },
     }
   );
 
   let games;
-  if (data) {
+  if (data && Array.isArray(data)) {
     games = data.map((game: any) => ({
       icon: game.icon,
       url: game.url,
