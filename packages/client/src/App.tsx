@@ -60,12 +60,10 @@ function App() {
             placeholder="Country"
             optionFilterProp="children"
             filterOption={(input, option) => {
-              console.log(
-                "🚀 ~ file: KeysInputArea.tsx ~ line 67 ~ KeysInputArea ~ input, option",
-                option
-              );
               return (
-                option?.value.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                COUNTRIES[option?.value]
+                  .toLowerCase()
+                  .indexOf(input.toLowerCase()) >= 0
               );
             }}
             onChange={(value: string) => setCountry(value)}
@@ -73,6 +71,7 @@ function App() {
             {Object.keys(COUNTRIES).map((code) => (
               <Select.Option key={code} value={code}>
                 <img
+                  style={{ marginRight: "5px" }}
                   src={`https://flagcdn.com/16x12/${code.toLowerCase()}.png`}
                   alt=""
                 />
