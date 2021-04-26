@@ -11,11 +11,7 @@ const queryClient = new QueryClient();
 function App() {
   const [keys, setKeys] = useState<string[]>([]);
   const [country, setCountry] = useState<string>("RU");
-
-  function onSubmitInputArea() {
-    setKeys(keys);
-    setCountry(country);
-  }
+  const [isSearching, setIsSearching] = useState(false);
 
   // TODO deleting all dublicates
   function deleteKeyWord(keyWord: string) {
@@ -31,13 +27,13 @@ function App() {
             onChange={(e) => setKeys(e.target.value.split(","))}
             placeholder="Input comma-separated keywords"
             rows={3}
-            onPressEnter={onSubmitInputArea}
+            onPressEnter={() => setIsSearching(true)}
           />
 
           <Button
             disabled={!keys}
             icon={<SearchOutlined />}
-            onClick={() => onSubmitInputArea()}
+            onClick={() => setIsSearching(true)}
           >
             Search
           </Button>
@@ -49,7 +45,13 @@ function App() {
             Copy
           </Button>
 
-          <Button onClick={() => setKeys([])} disabled={!keys}>
+          <Button
+            onClick={() => {
+              setKeys([]);
+              setIsSearching(false);
+            }}
+            disabled={!keys}
+          >
             Clear
           </Button>
 
@@ -80,7 +82,7 @@ function App() {
             ))}
           </Select>
         </ControlArea>
-        {keys && (
+        {keys && isSearching && (
           <KeyTable
             keys={keys}
             country={country}
